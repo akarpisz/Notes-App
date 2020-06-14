@@ -27,7 +27,8 @@ const saveNote = (note) => {
 // A function for deleting a note from the db
 const deleteNote = (id) => {
   return $.ajax({
-    url: "api/notes/" + id,
+    // url: "/api/notes/" + id,
+    url: `/api/notes/${id}`,
     method: "DELETE",
   });
 };
@@ -94,6 +95,7 @@ const handleNewNoteView = function () {
 // If a note's title or text are empty, hide the save button
 // Or else show it
 const handleRenderSaveBtn = function () {
+  
   if (!$noteTitle.val().trim() || !$noteText.val().trim()) {
     $saveNoteBtn.hide();
   } else {
