@@ -52,17 +52,20 @@ console.log(newId);
   fs.writeFileSync("./db/db.json", JSON.stringify(savedNotes), (err) => {
     throw err;
   });
+  res.sendFile(path.join(appRoot + "/public/", "notes.html"));
 });
 
 app.delete("/api/notes/:id", async function (req, res) {
 
-  let del = req.params.id;
-  let data = fs.readFileSync("./db/db.json");
+  let del = parseInt(req.params.id);
+  let data = fs.readFileSync("./db/db.json", "utf-8", err => {return err});
   let json = JSON.parse(data);
   let len = json.length;
-  let newNoteArr = json.filter(note => note.id !== del);
+  let newNoteArr = json.filter(note => {return note.id !== del});
+  console.log(del);
   console.log(newNoteArr);
-  //here
+  fs.writeFileSync("./db/db.json", JSON.stringify(newNoteArr), (err)=>{return err});
+  res.sendFile(path.join(appRoot + "/public/", "notes.html"));
   
 });
 
