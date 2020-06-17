@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const { text } = require("express");
+const express = require("express");
 const app = express();
 
 const PORT = 5000;
@@ -43,12 +43,10 @@ app.post("/api/notes", function (req, res) {
     return data;
   });
   let newId = JSON.parse(notes).length + 1;
-console.log(newId);
   let savedNotes = JSON.parse(notes);
   
   let newNote = new Note(newId, (req.body.title), (req.body.text));
   savedNotes.push(newNote);
-  console.log(newNote);
   fs.writeFileSync("./db/db.json", JSON.stringify(savedNotes), (err) => {
     throw err;
   });
@@ -62,8 +60,6 @@ app.delete("/api/notes/:id", async function (req, res) {
   let json = JSON.parse(data);
   let len = json.length;
   let newNoteArr = json.filter(note => {return note.id !== del});
-  console.log(del);
-  console.log(newNoteArr);
   fs.writeFileSync("./db/db.json", JSON.stringify(newNoteArr), (err)=>{return err});
   res.sendFile(path.join(appRoot + "/public/", "notes.html"));
   
